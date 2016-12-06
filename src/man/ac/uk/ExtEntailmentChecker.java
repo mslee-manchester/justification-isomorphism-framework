@@ -41,9 +41,10 @@ public class ExtEntailmentChecker {
     	Set<OWLAxiom> axioms = new HashSet<OWLAxiom>();
         for (AxiomTreeNode c : j1.getChildTrees()) {
             OWLAxiom ax = convertToAxiom(c, vars1);
-            //System.out.println("Looking at converted node: " + c.toString());
-            //System.out.println("Converted node children: " + c.getChildTrees());
-            if (ax == null) {
+            System.out.println("Looking at converted node: " + c.toString());
+            System.out.println("Converted node children: " + c.getChildTrees());
+            System.out.println("Axiom made: " + ax);
+            if (ax.equals(null)) {
                 return false;
             }
             axioms.add(ax); 
@@ -53,8 +54,9 @@ public class ExtEntailmentChecker {
         Set<OWLAxiom> axioms2 = new HashSet<OWLAxiom>();
         for (AxiomTreeNode c : j2.getChildTrees()) {
             OWLAxiom ax = convertToAxiom(c, vars2);
-            //System.out.println("Looking at converted node: " + c.toString());
-            //System.out.println("Converted node children: " + c.getChildTrees());
+            System.out.println("Looking at converted node: " + c.toString());
+            System.out.println("Converted node children: " + c.getChildTrees());
+            System.out.println("Axiom made: " + ax);
             if (ax == null) {
                 return false;
             }
@@ -157,8 +159,18 @@ public class ExtEntailmentChecker {
 
     private OWLAxiom convertToAxiom(AxiomTreeNode t, Map vars) {
         AxiomTreeNode copy = copyWithMapping(t, vars);
+        System.out.println("COPY: " + copy.toString());
+        System.out.println("COPY TREE: " + copy.renderTree());
+        System.out.println(t.getLabel());
+        for(AxiomTreeNode n:t.getChildTrees())
+        {
+        	System.out.println(n.renderTree());
+        }
+        System.out.println(vars);
+        System.out.println(copy.getChild(1).renderTree());
         OWLAxiom axiom = copy.asOWLAxiom();
-        //System.out.println(t.getLabel());
+        System.out.println(t.getLabel());
+        System.out.println("Axiom: " + axiom);
         return axiom;
     }
 

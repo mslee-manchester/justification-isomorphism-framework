@@ -59,9 +59,10 @@ public class CorpusSorter {
 				
 			}
 		}
-		//System.out.println(cond1);
-		//System.out.println(cond2);
-		
+		System.out.println(cond1);
+		System.out.println(cond2);
+		System.out.println(subclass);
+		System.out.println(supclass);
 		if(cond1 && cond2)
 		{
 			return df.getOWLSubClassOfAxiom(subclass, supclass);
@@ -94,24 +95,25 @@ public class CorpusSorter {
 				dirCount++;
 			}
 		}
-		if(dirCount > 1){
+		//if(dirCount > 1){
 			for(File fl:dir.listFiles())
 			{
-				if(fl.isDirectory())
-				{
-					for(File fl2:fl.listFiles())
-					{
-						if(fl2.getPath().contains(".owl") && !fl2.getPath().contains("~"))
+				//if(fl.isDirectory())
+				//{
+					//for(File fl2:fl.listFiles())
+					//{
+						if(fl.getPath().contains(".owl") && !fl.getPath().contains("~"))
 						{
-							OWLOntology checkJust = ontoman2.loadOntologyFromOntologyDocument(fl2);		
+							OWLOntology checkJust = ontoman2.loadOntologyFromOntologyDocument(fl);
+							
 							if(this.sameJust(just1.getAxioms(),this.entailSearch(just1),checkJust.getAxioms(),this.entailSearch(checkJust))){
-								matches.add(fl2.getPath());
+								matches.add(fl.getPath());
 							}
 							ontoman2.removeOntology(checkJust);
 						}
-					}
-				}
-			}
+					//}
+				//}
+			//}
 		}
 		ontoman.removeOntology(just1);
 		return matches;
@@ -143,15 +145,18 @@ public class CorpusSorter {
 			ArrayList<String> DeleteList = new ArrayList<String>();
 			DeleteList.add(MasterList.get(0));
 			String name =  MasterList.get(0).substring(MasterList.get(0).lastIndexOf("/") + 1);
+			//System.out.println(name);
 			File checkFile = new File(MasterList.get(0));
-			String entailmentDir = MasterList.get(0).replaceFirst(dir.toString(), "");
-			entailmentDir = entailmentDir.replaceFirst("/" + name, "");
-			entailmentDir = entailmentDir.replaceFirst(entailmentDir.substring(entailmentDir.lastIndexOf("/")), "");
+			//String entailmentDir = MasterList.get(0).replaceFirst(dir.toString(), "");
+			//System.out.println(entailmentDir);
+			//entailmentDir = entailmentDir.replaceFirst("/" + name, "");
+			//System.out.println(entailmentDir);
+			//entailmentDir = entailmentDir.replaceFirst(entailmentDir.substring(entailmentDir.lastIndexOf("/")), "");
 			OWLOntology checkJust = ontoman.loadOntologyFromOntologyDocument(checkFile);
 			Files.copy(Paths.get(MasterList.get(0)), Paths.get(dir2.toString() +  "/" + name));
-			System.out.println(dir.toString() + entailmentDir);
-			DeleteList.addAll(this.findMatches(new File(dir.toString() + entailmentDir + "/"), checkJust));
-			System.out.println(DeleteList);
+			//System.out.println(dir.toString() + entailmentDir);
+			DeleteList.addAll(this.findMatches(dir, checkJust));
+			//System.out.println(DeleteList);
 			MasterList.removeAll(DeleteList);
 		}
 	}

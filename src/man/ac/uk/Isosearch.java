@@ -48,7 +48,7 @@ public class Isosearch {
 	SubexIso subi;
 	LemmaIso li;
 	ExtStrictIso esi;
-	Ext2StrIso e2si;
+	PutativeStrictIso psi;
 	static OWLDataFactory df;
 	ReasonerFactory hermitfac;
 	OWLOntologyManager ontoman;
@@ -66,7 +66,7 @@ public class Isosearch {
         subi = new SubexIso(hermitfac);
         li = new LemmaIso(hermitfac);
         esi = new ExtStrictIso(hermitfac);
-        e2si = new Ext2StrIso(hermitfac);
+        psi = new PutativeStrictIso(hermitfac);
         ontoman = OWLManager.createOWLOntologyManager();
         df = ontoman.getOWLDataFactory();
 	}
@@ -89,7 +89,7 @@ public class Isosearch {
 				Set<OWLAxiom> setJust = new HashSet<OWLAxiom>();
 				for(OWLAxiom ax:checkJust.getAxioms())
 				{
-					if(!ax.isAnnotationAxiom())
+					if(!ax.isAnnotationAxiom() && !ax.isOfType(AxiomType.DECLARATION))
 					{
 						setJust.add(ax);
 					}
@@ -101,7 +101,7 @@ public class Isosearch {
 					//System.out.println(checkExp);
 					//System.out.println(just);
 					ontoman.removeOntology(checkJust);
-					if(e2si.equivalent(just, checkExp))
+					if(psi.equivalent(just, checkExp))
 					{
 						//System.out.println(esi.equivalent(just, checkExp) + just.toString() + checkExp.toString());
 						foundList.add(path);

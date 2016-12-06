@@ -1,5 +1,6 @@
 package man.ac.uk;
 
+import org.semanticweb.owl.explanation.api.Explanation;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.AxiomType;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -16,7 +17,6 @@ import iso.axiomtree.EntailmentChecker;
 import iso.checker.AbstractIsoChecker;
 import iso.checker.IsoUtil;
 
-import org.semanticweb.owl.explanation.api.Explanation;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
@@ -51,7 +51,7 @@ public class Ext2StrIso  {
     	//System.out.println(e1);
     	//System.out.println(e2);
         if (e1.equals(e2)) {
-            return true;
+         return true;
         }
 
         // check if they have the same size, same entailment types, same numbers of axiom types
@@ -115,7 +115,6 @@ public class Ext2StrIso  {
 
         AxiomTreeNode et1 = atb.generateAxiomTree(e1.getEntailment());
         AxiomTreeNode et2 = atb.generateAxiomTree(e2.getEntailment());
-        
         AxiomTreeNode jt1 = atb.generateExplanationTree(e1);
         AxiomTreeNode jt2 = atb.generateExplanationTree(e2);
         
